@@ -7,7 +7,8 @@ export default class UpdateArticle extends Component {
     super(props);
     this.state = {
       title : this.props.data.title,
-      desc: this.props.data.desc
+      desc: this.props.data.desc,
+      difficulty: this.props.data.difficulty
     }
   }
   modifyValue = (e)=>{
@@ -26,7 +27,8 @@ export default class UpdateArticle extends Component {
                 e.preventDefault();
                 this.props.onsubmit(
                   this.state.title,
-                  this.state.desc
+                  this.state.desc,
+                  this.state.difficulty
                 ); 
                 //debugger;
                 // alert('제출'); //e는 이벤트가 일어난 그 녀석, form
@@ -42,6 +44,12 @@ export default class UpdateArticle extends Component {
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
                   <Form.Label>Description</Form.Label>
                   <Form.Control as="textarea" name="desc" rows={3} value={this.state.desc} 
+                   onChange={this.modifyValue}
+                  />
+                </Form.Group>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+                  <Form.Label>Difficulty</Form.Label>
+                  <Form.Control type="number" name="difficulty" min="0" max="5" value={this.state.difficulty} 
                    onChange={this.modifyValue}
                   />
                 </Form.Group>

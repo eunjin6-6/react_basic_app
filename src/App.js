@@ -19,10 +19,9 @@ class App extends Component {
       subject:{title :'React',desc:'Single page Application'},
       welcome:{title :'Welcome',desc:'Welcome to React'},
       menus:[
-        {id:1, title:'HTML', desc:'Hypertext Markup Language'},
-        {id:2, title:'CSS', desc:'CSS for design'},
-        {id:3, title:'Javascript', desc:'Javascript for interaction'},
-        {id:4, title:'React', desc:'Single page Application'}
+        {id:1, title:'HTML', desc:'Hypertext Markup Language', difficulty:1},
+        {id:2, title:'CSS', desc:'CSS for design', difficulty:2},
+        {id:3, title:'Javascript', desc:'Javascript for interaction', difficulty:3}
       ]
     };
   }
@@ -50,7 +49,7 @@ class App extends Component {
         })
       }}></Article>; 
     } else if(this.state.mode === 'create'){
-      _article = <CreateArticle onsubmit={(_title, _desc)=>{
+      _article = <CreateArticle onsubmit={(_title, _desc, _difficulty)=>{
         this.max_menu_id += 1;
 
         //배열을 추가해주기 > 직접 밀어넣는거 말고 변경하기(원본변경되는거)
@@ -70,28 +69,32 @@ class App extends Component {
         // );
         
         //기본 배열 풀어헤치고(스프레드 연산자), 새로운값 추가 
-        let _menus =[...this.state.menus, {id:this.max_menu_id, title:_title, desc:_desc}];
+        let _menus =[...this.state.menus, {id:this.max_menu_id, title:_title, desc:_desc, difficulty:_difficulty}];
 
 
 
         //복사본을 넣기
         this.setState({
-          menus:_menus
+          menus:_menus,
+          mode:'welcome',
+          selected_id: 0
         });
+        alert('추가했습니다.')
         //console.log(_title, _desc); //제목 내용
       }}></CreateArticle>;
     } else if(this.state.mode === 'modify'){
 
       let _data = this.getReadArticle();
 
-      _article = <UpdateArticle data={_data} onsubmit={(_title, _desc)=>{
+      _article = <UpdateArticle data={_data} onsubmit={(_title, _desc, _difficulty)=>{
         let _menus = [...this.state.menus];
         const idx = this.state.menus.findIndex(item=>item.id === this.state.selected_id);
-        _menus[idx] = {id:this.state.selected_id, title:_title, desc:_desc} //해당 번째의 값 수정
+        _menus[idx] = {id:this.state.selected_id, title:_title, desc:_desc, difficulty:_difficulty} //해당 번째의 값 수정
         this.setState({
           menus:_menus,
           mode:'read'
-        })
+        });
+        alert('수정했습니다.')
       }}></UpdateArticle>;
     } else if(this.state.mode === 'delete'){
       if(window.confirm('정말 삭제할까요?')){
